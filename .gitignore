@@ -131,3 +131,4 @@ dmypy.json
 
 #MY   /는 폴더일 때 붙임
 doit_venv/ 
+migrations/
