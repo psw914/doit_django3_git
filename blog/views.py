@@ -7,7 +7,7 @@ from blog import models
 # Create your views here.
 class PostList(ListView):
     model = models.Post
-    template_name = "blog/index.html"
+    # template_name = "blog/index.html"
     ordering = "-pk"
 
 
