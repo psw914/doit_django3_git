@@ -28,7 +28,7 @@ PostList
         </div>
         <div class="card-footer text-muted">
             {{p.created_at}}
-            <a href="#!">Start Bootstrap</a>
+            <a href="#!">{{p.author|upper}}</a>
         </div>
     </div>
     {% endfor %}
