@@ -1,178 +1,130 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block head_title %}
+PostDetail
+{% endblock %}
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
 
-  <title>Blog Post</title>
-
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <!-- Custom styles for this template -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-
-</head>
-
-<body>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#!">Start Bootstrap</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#!">
-                        Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="/blog/">Blog</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About me</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">포트폴리오</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-  <!-- Page Content -->
-  <div class="container">
-
-    <div class="row">
-
-      <!-- Post Content Column -->
-      <div class="col-lg-8">
-
-        <!-- Title -->
-        <h1 class="mt-4">{{post.title}}</h1>
-
-        <!-- Author -->
-        <p class="lead">
-          by
-          <a href="#">Start Bootstrap</a>
-        </p>
-
-        <hr>
-
-        <!-- Date/Time -->
-        <p>{{post.created_at}}</p>
-
-        <hr>
-
-        <!-- Preview Image -->
-        {% if post.head_image %}
-          <!-- <img class="img-fluid rounded" src="http://placehold.it/900x300" alt=""> -->
-          <img class="img-fluid rounded" src="{{post.head_image.url}}" alt="{{post.title}} head_image">
-          {% else %}
-            <img class ="img-fluid rounded" src="https://picsum.photos/seed/{{post.id}}/800/300" alt="random_image">
-        {% endif %}
-        <hr>
-
-        <!-- Post Content -->
-        <p class="lead">{{post.content}}</p>
+{% block main_area %}
+<!-- Page Content -->
 
 
 
-        <blockquote class="blockquote">
-          <p class="mb-0">L</p>
-          <footer class="blockquote-footer">Someone famous in
-            <cite title="Source Title">
-              
-              {% if post.file_upload %}
-                <a href="{{post.file_upload.url}}" download>
-                  <button class="btn btn-primary">
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"></svg> -->
-                    Download : 
-                    {% if post.get_file_ext == "txt" %}
-                      <i class="bi bi-file-earmark-arrow-down"></i>
-                    {% elif post.get_file_ext == "docx" or post.get_file_ext == "doc"  %}
-                    {% endif %} 
-                    {{post.get_file_name}}
-                  </button>
-                </a>
+
+    <!-- Post Content Column -->
+
+
+      <!-- Title -->
+      <h1 class="mt-4">{{post.title}}</h1>
+
+      <!-- Author -->
+      <p class="lead">
+        by
+        <a href="#">Start Bootstrap</a>
+      </p>
+
+      <hr>
+
+      <!-- Date/Time -->
+      <p>{{post.created_at}}</p>
+
+      <hr>
+
+      <!-- Preview Image -->
+      {% if post.head_image %}
+      <!-- <img class="img-fluid rounded" src="http://placehold.it/900x300" alt=""> -->
+      <img class="img-fluid rounded" src="{{post.head_image.url}}" alt="{{post.title}} head_image">
+      {% else %}
+      <img class="img-fluid rounded" src="https://picsum.photos/seed/{{post.id}}/800/300" alt="random_image">
+      {% endif %}
+      <hr>
+
+      <!-- Post Content -->
+      <p class="lead">{{post.content}}</p>
+
+
+
+      <blockquote class="blockquote">
+        <p class="mb-0">L</p>
+        <footer class="blockquote-footer"> 첨부 파일
+          
+            {% if post.file_upload %}
+            다운로드 : 
+            <a href="{{post.file_upload.url}}" download>
+              <button class="btn btn-primary">
+                {% if post.get_file_ext == "txt" %}
+                
+                  <i class="bi bi-file-earmark-arrow-down "></i>
+                  
+                  {% elif post.get_file_ext == "docx" or post.get_file_ext == "doc" %}
+                  {% endif %}
+                  {{post.get_file_name}}
+                </button>
+              </a>
               {% endif %}
-            </cite>
-          </footer>
-        </blockquote>
+            
+            
+                       
+        </footer>
+      </blockquote>
 
 
-        <hr>
-
-        <!-- Comments Form -->
-        <div class="card my-4">
-          <h5 class="card-header">Leave a Comment:</h5>
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <textarea class="form-control" rows="3"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Single Comment -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-          </div>
-        </div>
-
-        <!-- Comment with nested comments -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Commenter Name</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
+      <hr>
+      <!-- Comments Form -->
+      <div class="card my-4">
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <textarea class="form-control" rows="3"></textarea>
             </div>
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Commenter Name</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
-            </div>
-
-          </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
-
       </div>
 
-      <!-- Sidebar Widgets Column -->
+      <!-- Single Comment -->
+      <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+        <div class="media-body">
+          <h5 class="mt-0">Commenter Name</h5>
+          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+        </div>
+      </div>
+
+      <!-- Comment with nested comments -->
+      <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+        <div class="media-body">
+          <h5 class="mt-0">Commenter Name</h5>
+          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+
+          <div class="media mt-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">Commenter Name</h5>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            </div>
+          </div>
+
+          <div class="media mt-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">Commenter Name</h5>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    
+
+
+
+
+
  
-    </div>
-    <!-- /.row -->
 
-  </div>
-  <!-- /.container -->
 
-  <!-- Footer -->
-  <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
-    </div>
-    <!-- /.container -->
-  </footer>
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
+{% endblock %}
