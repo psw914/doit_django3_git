@@ -13,6 +13,7 @@
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 
 </head>
 
@@ -80,10 +81,24 @@
         <blockquote class="blockquote">
           <p class="mb-0">L</p>
           <footer class="blockquote-footer">Someone famous in
-            <cite title="Source Title">Source Title</cite>
+            <cite title="Source Title">
+              
+              {% if post.file_upload %}
+                <a href="{{post.file_upload.url}}" download>
+                  <button class="btn btn-primary">
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16"></svg> -->
+                    Download : 
+                    {% if post.get_file_ext == "txt" %}
+                      <i class="bi bi-file-earmark-arrow-down"></i>
+                    {% elif post.get_file_ext == "docx" or post.get_file_ext == "doc"  %}
+                    {% endif %} 
+                    {{post.get_file_name}}
+                  </button>
+                </a>
+              {% endif %}
+            </cite>
           </footer>
         </blockquote>
-
 
 
         <hr>
