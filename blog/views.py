@@ -90,3 +90,18 @@ def category_page(request,slug):
 #         "blog/post_list.html",
 #         context
 #     )
+
+def tag_page(request,slug):
+    tag = models.Tag.objects.get(slug=slug)
+    post_list = tag.post_set.all()
+
+    return render(
+        request,
+        "blog/post_list.html",
+        {
+            "post_list":post_list,
+            "tag":tag,
+            "categories":models.Category.objects.all(),
+            "no_cgy":models.Post.objects.filter(category=None).count(),
+        },
+    )

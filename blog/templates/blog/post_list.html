@@ -12,7 +12,14 @@ PostList
             {{category}}
         </span>
         {% endif %}
-        <small>Secondary Text</small>
+       
+        {% if tag %} 
+        <span class="badge badge-secondary">
+            <i class="bi bi-tags"></i>
+            {{tag}}
+            ({{tag.post_set.count}})
+        </span>
+        {% endif %}
     </h1>
     <!-- Blog post-->
     {% for p in post_list %}
