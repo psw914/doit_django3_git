@@ -12,7 +12,7 @@ PostList
     </h1>
     <!-- Blog post-->
     {% for p in post_list %}
-    <div class="card mb-4">
+    <div class="card mb-4" id="post-{{p.pk}}"> <!-- pk = 프라이머리키 -->
         {% if p.head_image %}
         <img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}} head image" />
         {% else %}

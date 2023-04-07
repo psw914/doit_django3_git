@@ -10,7 +10,12 @@ class PostList(ListView):
     # template_name = "blog/index.html"
     ordering = "-pk"
 
+    def get_context_data(self,**kwargs):
+        context = super(PostList,self).get_context_data()
+        context["categories"] = models.Category.objects.all()
+        context["no_category_post_count"] = models.Post.objects.filter(category=None).count()
 
+        return context 
 
 # def index(request):
 #     posts = models.Post.objects.all().order_by("-pk")

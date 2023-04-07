@@ -32,7 +32,7 @@ class Post(models.Model):
 
 
     def __str__(self):
-        return f"[{self.pk}]{self.title} :: {self.author}"
+        return f"[{self.pk}]{self.title} :: {self.author} -- {self.category}"
     
     def get_absolute_url(self):
         return f"/blog/{self.pk}/"
