@@ -7,7 +7,11 @@ PostList
 {% block main_area %}
 <!-- Blog entries-->
     <h1 class="my-4">
-        BLOG
+        BLOG {% if category %} 
+        <span class="badge badge-secondary">
+            {{category}}
+        </span>
+        {% endif %}
         <small>Secondary Text</small>
     </h1>
     <!-- Blog post-->
