@@ -28,6 +28,18 @@ PostList
             <h5 class="text-muted">{{p.hook_text}}</h5>
             {% endif %}
             <p>{{p.content|truncatechars:100}}</p>
+            
+            {% if p.tags.exists %}
+                <i class="bi bi-tags"></i>
+                {% for tag in p.tags.iterator %}
+                    <a href="{{tag.get_absolute_url}}">
+                        <span class="badge badge-pill badge-lihgt">
+                            {{tag}}
+                        </span>
+                    </a>
+                {% endfor %}<br><br>
+            {% endif %}
+
             <a class="btn btn-primary" href="{{p.get_absolute_url}}">Read More →</a>
         </div>
         <div class="card-footer text-muted">
