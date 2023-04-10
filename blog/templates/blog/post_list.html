@@ -8,71 +8,101 @@ PostList
 <!-- Blog entries-->
 
 
-<h1 class="my-4">
-        {% if user.is_authenticated %}
+<div class="row">
+    <!-- Blog entries-->
+    <div class="col-lg-8" id="main-area">
+
+        <h1 class="my-4">
+            {% if user.is_authenticated %}
             {% if user.is_superuser or user.is_staff %}
-                <a class="btn btn-info btn-sm float-right" href="/blog/create_post" role="button">
-                    <i class="bi bi-pencil-square"></i>
-                    &nbsp;&nbsp;
-                    New Post
-                </a>
+            <a class="btn btn-info btn-sm float-right" href="/blog/create_post" role="button">
+                <i class="bi bi-pencil-square"></i>
+                &nbsp;&nbsp;
+                New Post
+            </a>
             {% endif %}
-        {% endif %}
-        
-        BLOG {% if category %} 
-        <span class="badge badge-secondary">
-            {{category}}
-        </span>
-        {% endif %}
-       
-        {% if tag %} 
-        <span class="badge badge-secondary">
-            <i class="bi bi-tags"></i>
-            {{tag}}
-            ({{tag.post_set.count}})
-        </span>
-        {% endif %}
-    </h1>
-    <!-- Blog post-->
-    {% for p in post_list %}
-    <div class="card mb-4" id="post-{{p.pk}}"> <!-- pk = 프라이머리키 -->
-        {% if p.head_image %}
-        <img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}} head image" />
-        {% else %}
-        <img class="img-fluid rounded" src="http://placehold.it/900x250" alt="empty_image">
-        {% endif %}
-        <div class="card-body">
-            <h2 class="card-title"><a href="{{p.get_absolute_url}}">{{p.title}}</a></h2>
-            {% if p.hook_text %}
-            <h5 class="text-muted">{{p.hook_text}}</h5>
             {% endif %}
-            <p>{{p.content|safe|truncatechars:100}}</p>
-            
-            {% if p.tags.exists %}
+
+            BLOG
+            {% if search_info %}
+            <small class="text-muted">
+                {{search_info}}
+            </small>
+            {% endif %}
+            {% if category %}
+            <span class="badge badge-secondary">
+                {{category}}
+            </span>
+            {% endif %}
+
+            {% if tag %}
+            <span class="badge badge-secondary">
+                <i class="bi bi-tags"></i>
+                {{tag}}
+                ({{tag.post_set.count}})
+            </span>
+            {% endif %}
+
+        </h1>
+        <!-- Blog post-->
+        {% for p in post_list %}
+        <div class="card" id="post-{{p.pk}}"> <!-- pk = 프라이머리키 -->
+            {% if p.head_image %}
+            <img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}} head image" />
+            {% else %}
+            <img class="img-fluid rounded" src="http://placehold.it/900x250" alt="empty_image">
+            {% endif %}
+            <div class="card-body">
+                <h2 class="card-title"><a href="{{p.get_absolute_url}}">{{p.title}}</a></h2>
+                {% if p.hook_text %}
+                <h5 class="text-muted">{{p.hook_text}}</h5>
+                {% endif %}
+                <p>{{p.content|safe|truncatechars:100}}</p>
+
+                {% if p.tags.exists %}
                 <i class="bi bi-tags"></i>
                 {% for tag in p.tags.iterator %}
-                    <a href="{{tag.get_absolute_url}}">
-                        <span class="badge badge-pill badge-lihgt">
-                            {{tag}}
-                        </span>
-                    </a>
+                <a href="{{tag.get_absolute_url}}">
+                    <span class="badge badge-pill badge-lihgt">
+                        {{tag}}
+                    </span>
+                </a>
                 {% endfor %}<br><br>
-            {% endif %}
+                {% endif %}
 
-            <a class="btn btn-primary" href="{{p.get_absolute_url}}">Read More →</a>
+                <a class="btn btn-primary" href="{{p.get_absolute_url}}">Read More →</a>
+            </div>
+            <div class="card-footer text-muted">
+                {{p.created_at}}
+                <a href="#!">{{p.author|upper}}</a>
+            </div>
         </div>
-        <div class="card-footer text-muted">
-            {{p.created_at}}
-            <a href="#!">{{p.author|upper}}</a>
-        </div>
+        {% endfor %}
+
+
+        <!-- Pagination-->
+        <!-- <ul class="pagination justify-content-center mb-4">
+            <li class="page-item"><a class="page-link" href="#!">← Older</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#!">Newer →</a></li>
+        </ul> -->
+        
+            <ul class="pagination justify-content-center mb-4">
+              <li class="page-item disabled">
+                <a class="page-link">Previous</a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+              </li>
+            </ul>
+          
     </div>
-    {% endfor %}
 
-
-    <!-- Pagination-->
-    <ul class="pagination justify-content-center mb-4">
-        <li class="page-item"><a class="page-link" href="#!">← Older</a></li>
-        <li class="page-item disabled"><a class="page-link" href="#!">Newer →</a></li>
-    </ul>
-
+</div>
+<!-- Side widgets-->
+{% include "blog/side_widgets.html" %}
 {% endblock %}
