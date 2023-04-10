@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 from blog import models
+from blog import forms
 # Create your views here.
 class PostList(ListView):
     model = models.Post
@@ -109,7 +110,10 @@ def tag_page(request,slug):
 
 class PostCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = models.Post
-    fields = ["title","hook_text","content","head_image","file_upload","category"]
+    # fields = forms.PostForm
+    form_class = forms.PostForm
+    # fields = ["title","hook_text","content","head_image","file_upload","category","tags"]
+    # fields = []
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
