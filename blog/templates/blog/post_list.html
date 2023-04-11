@@ -122,6 +122,29 @@ PostList
         </ul>
 
 
+        <ul class="pagination justify-content-center mb-4">
+        {% if page_obj.has_previous%}
+        <li class="page-item">
+            <a class="page-link" href="?page={{page_obj.first_page_number}}">←← 처음 페이지</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">←← 처음 페이지</a>
+        </li>
+        {% endif %}
+        
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{page_obj.paginator.num_pages}}">마지막 페이지 →→</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" href="#">마지막 페이지 →→</a>
+        </li>
+        {% endif %}
+        </ul>
+
+
         <!--         
         <ul class="pagination justify-content-center mb-4">
             <li class="page-item disabled">
