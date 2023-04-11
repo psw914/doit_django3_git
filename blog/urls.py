@@ -11,4 +11,6 @@ urlpatterns = [
     path("create_post/",views.PostCreate.as_view()),
 
     path("search/<str:q>/", views.PostSearch.as_view()),
+    # 포스트 수정 페이지
+    path('update_post/<int:pk>/',views.PostUpdate.as_view()),
 ]
