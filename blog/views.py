@@ -140,15 +140,18 @@ class PostCreate(LoginRequiredMixin,UserPassesTestMixin,CreateView):
                 tags_str = tags_str.replace(",", "#")
                 tags_list = tags_str.split("#")
 
-                print(tags_list)
+                
                 for t in tags_list:
                     t = t.strip()
-                    print(t)
-                    tag, is_tag_created = models.Tag.objects.get_or_create(name=t)
-                    if tag != "":
+                    if t == "":
+                        continue
+                    else:
+                    
+                        tag, is_tag_created = models.Tag.objects.get_or_create(name=t)
+                        
                         if is_tag_created:
-                            tag.slug = slugify(t, allow_unicode=True)
-                            tag.save()
+                                tag.slug = slugify(t, allow_unicode=True)
+                                tag.save()
                         self.object.tags.add(tag)
 
             return response
@@ -209,14 +212,18 @@ class PostUpdate(LoginRequiredMixin,UpdateView):
             tags_str = tags_str.strip()
             tags_str = tags_str.replace(",", "#")
             tags_list = tags_str.split("#")
-            print(tags_list)
+            print("tags_list :", tags_list)
 
             for t in tags_list:
-                print(t)
                 t = t.strip()
-                tag, is_tag_created = models.Tag.objects.get_or_create(name=t)
-                
-                if tag != "":
+                print("t1", t)
+
+                if t == "":
+                    continue
+                else:
+                    tag, is_tag_created = models.Tag.objects.get_or_create(name=t)
+                    
+                    print("tag2", tag)
                     if is_tag_created:
                         tag.slug = slugify(t, allow_unicode=True)
                         tag.save()
