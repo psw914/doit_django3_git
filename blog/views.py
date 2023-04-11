@@ -3,11 +3,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
-# 포스트 수정 페이지
-from django.core.exceptions import PermissionDenied
-# 작성자의 태그 기능
-from django.utils.text import slugify
-
+from django.core.exceptions import PermissionDenied  # 포스트 수정 페이지
+from django.utils.text import slugify  # 작성자의 태그 기능
+from django.shortcuts import get_object_or_404  # 댓글 작성 양식
 
 
 
@@ -46,6 +44,7 @@ class PostDetail(DetailView):
         context = super(PostDetail,self).get_context_data()
         context["categories"] = models.Category.objects.all()
         context["no_cgy"] = models.Post.objects.filter(category=None).count()
+        context["comment_form"] = forms.CommentForm
 
         return context 
 # def single_post_page(request,pk):
@@ -217,3 +216,34 @@ class PostUpdate(LoginRequiredMixin,UpdateView):
                 self.object.tags.add(tag)
 
         return response
+    
+
+# 댓글 작성 양식
+def new_comment(request,pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(models.Post,pk=pk)
+
+        if request.method == "POST":
+            comment_form = forms.CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.post = post
+                comment.author = request.user
+                comment.save()
+
+                return redirect(comment.get_absolute_url())
+            else:
+                return redirect(post.get_absolute_url())
+        else:
+            raise PermissionDenied
+        
+# 댓글 수정
+class CommentUpdate(LoginRequiredMixin,UpdateView):
+    model = forms.Comment
+    form_class = forms.CommentForm
+
+    def dispatch(self,request,*args,**kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(CommentUpdate,self).dispatch(request,*args,**kwargs)
+        else:
+            raise PermissionDenied

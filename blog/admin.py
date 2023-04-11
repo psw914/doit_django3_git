@@ -2,8 +2,7 @@ from django.contrib import admin
 from blog import models
 
 
-#summernote
-from django_summernote.admin import SummernoteModelAdmin
+from django_summernote.admin import SummernoteModelAdmin  #summernote
 
 
 # Apply summernote to all TextField in model.
@@ -33,3 +32,7 @@ class TagAdmin(admin.ModelAdmin):
 
 admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.Tag,TagAdmin)
+
+
+# 댓글 작성 관리자 페이지 추가
+admin.site.register(models.Comment)
